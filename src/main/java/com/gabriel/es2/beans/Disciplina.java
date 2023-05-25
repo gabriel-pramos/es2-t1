@@ -1,18 +1,28 @@
 package com.gabriel.es2.beans;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Disciplina {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private Integer codigo;
 	private Integer turma;
 	private String nome;
-	private String registrationNumber;
+	private String horario;
+
+	@ManyToMany
+	@JoinTable(name = "disciplina_estudante", joinColumns = @JoinColumn(name = "disciplina_id"), inverseJoinColumns = @JoinColumn(name = "estudante_matricula"))
+	private List<Estudante> estudantes;
 
 	public Integer getId() {
 		return this.id;
@@ -46,12 +56,20 @@ public class Disciplina {
 		this.nome = nome;
 	}
 
-	public String getRegistrationNumber() {
-		return this.registrationNumber;
+	public String getHorario() {
+		return this.horario;
 	}
 
-	public void setRegistrationNumber(String registrationNumber) {
-		this.registrationNumber = registrationNumber;
+	public void setHorario(String horario) {
+		this.horario = horario;
+	}
+
+	public java.util.List<Estudante> getEstudantes() {
+		return this.estudantes;
+	}
+
+	public void setEstudantes(java.util.List<Estudante> estudantes) {
+		this.estudantes = estudantes;
 	}
 
 }
